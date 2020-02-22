@@ -17,7 +17,8 @@
 <meta property="og:description" content="李宏毅机器学习笔记，坚持每天一更.">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;21&#x2F;MachineLearningNotes&#x2F;LearningMap.png">
-<meta property="og:updated_time" content="2020-02-21T15:03:25.000Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;21&#x2F;MachineLearningNotes&#x2F;GradientDescent.png">
+<meta property="og:updated_time" content="2020-02-22T12:02:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;21&#x2F;MachineLearningNotes&#x2F;LearningMap.png">
   
@@ -173,6 +174,51 @@
 <a id="more"></a>
 
 <h1 id="Machine-Learning"><a href="#Machine-Learning" class="headerlink" title="Machine Learning"></a>Machine Learning</h1><h2 id="0-Introduction-of-Machine-Learning"><a href="#0-Introduction-of-Machine-Learning" class="headerlink" title="0-Introduction of Machine Learning"></a>0-Introduction of Machine Learning</h2><img src="/2020/02/21/MachineLearningNotes/LearningMap.png" class="" title="Learning Map">
+
+
+
+<h2 id="1-Regression"><a href="#1-Regression" class="headerlink" title="1-Regression"></a>1-Regression</h2><h3 id="Application："><a href="#Application：" class="headerlink" title="Application："></a>Application：</h3><blockquote>
+<p>股票预测(Stock Market Forecast)<br>自动驾驶(Self-driving Car)<br>推荐系统(Recommendation)</p>
+</blockquote>
+<h3 id="1-Model"><a href="#1-Model" class="headerlink" title="1.Model"></a>1.Model</h3><p>一堆函数:</p>
+<blockquote>
+<p>$y = b + \sum w_{1,i}  x_i + \sum w_{2,i} x_i^2 + … +  \lambda \sum(w_i)^2$</p>
+</blockquote>
+<p>总结：</p>
+<blockquote>
+<p>其中$x_i$为某一项数据的第i个特征<br>$\sum(w_i)^2 $越小，函数越平滑<br>函数过于复杂，容易出现过拟合(Overfitting)的问题</p>
+</blockquote>
+<h3 id="2-Goodness-of-Function"><a href="#2-Goodness-of-Function" class="headerlink" title="2.Goodness of Function"></a>2.Goodness of Function</h3><p>损失函数 $L$:</p>
+<blockquote>
+<p>输入: 一个函数<br>输出: 函数有多差</p>
+</blockquote>
+<blockquote>
+<p>$L(f) = \sum_{i=1}^n (y_i - f(x_i))^2$</p>
+</blockquote>
+<p>其中$y_i, f(x_i)$分别为第i项数据的真实y值与预测y值</p>
+<h3 id="3-Best-Function"><a href="#3-Best-Function" class="headerlink" title="3.Best Function"></a>3.Best Function</h3><p>选取”最好”的函数: $f^*$</p>
+<blockquote>
+<p>$f^* = arg min_f L(f)$</p>
+</blockquote>
+<h3 id="4-Gradient-Descent"><a href="#4-Gradient-Descent" class="headerlink" title="4.Gradient Descent"></a>4.Gradient Descent</h3><p>函数 $L(w)$ 只有一个参数 $w$时:<br>$w^* = arg min_w L(w)$</p>
+<ol>
+<li><p>随机选取一个初始化的 $w^0$</p>
+</li>
+<li><p>计算微分 ${dL \over dw}|<em>{w=w^0}$，$w^1 = w^0 - \eta {dL \over dw}|</em>{w=w^0} $</p>
+</li>
+<li><p>计算微分${dL \over dw}|<em>{w=w^1}$，$w^2 = w^1 - \eta {dL \over dw}|</em>{w=w^1} $<br>.<br>.<br>.<br>经过多次迭代，计算出$w^*$</p>
+</li>
+</ol>
+<p>总结:</p>
+<blockquote>
+<ol>
+<li>其中$\eta$为学习率(Learning rate)</li>
+<li>经过梯度下降计算出来的最佳值可能是局部最小值(Local minima)和全局最小值(Global minima)，”这个要看人品了”</li>
+<li>当函数有多个参数时，求导过程变成求偏导的过程，每次迭代更新每个参数</li>
+</ol>
+</blockquote>
+<p>两个参数的梯度下降过程示例：</p>
+<img src="/2020/02/21/MachineLearningNotes/GradientDescent.png" class="" title="Gradient Descent">
       
 
       
@@ -315,7 +361,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Machine-Learning"><span class="toc-number">1.</span> <span class="toc-text">Machine Learning</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-Introduction-of-Machine-Learning"><span class="toc-number">1.1.</span> <span class="toc-text">0-Introduction of Machine Learning</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Machine-Learning"><span class="toc-number">1.</span> <span class="toc-text">Machine Learning</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-Introduction-of-Machine-Learning"><span class="toc-number">1.1.</span> <span class="toc-text">0-Introduction of Machine Learning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Regression"><span class="toc-number">1.2.</span> <span class="toc-text">1-Regression</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Application："><span class="toc-number">1.2.1.</span> <span class="toc-text">Application：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Model"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.Model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Goodness-of-Function"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.Goodness of Function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Best-Function"><span class="toc-number">1.2.4.</span> <span class="toc-text">3.Best Function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Gradient-Descent"><span class="toc-number">1.2.5.</span> <span class="toc-text">4.Gradient Descent</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
