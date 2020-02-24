@@ -20,7 +20,10 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;LearningMap.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;GradientDescent.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;BiasVariance.png">
-<meta property="og:updated_time" content="2020-02-23T08:46:26.000Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;LearningRate.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;StochasticGradientDescent.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;FeatureScaling.png">
+<meta property="og:updated_time" content="2020-02-23T13:09:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;AIMLDL.png">
   
@@ -236,6 +239,20 @@
 </blockquote>
 <h3 id="Model-Selection"><a href="#Model-Selection" class="headerlink" title="Model Selection"></a>Model Selection</h3><p>选择模型时要考虑权衡上述两种错误因素，使得错误最小化</p>
 <h3 id="Cross-Validation"><a href="#Cross-Validation" class="headerlink" title="Cross Validation"></a>Cross Validation</h3><p>可使用交叉验证的方法：<a href="https://www.jianshu.com/p/31efbe02e059" target="_blank" rel="noopener">交叉验证</a></p>
+<h2 id="3-Gradient-Descent"><a href="#3-Gradient-Descent" class="headerlink" title="3-Gradient Descent"></a>3-Gradient Descent</h2><h3 id="Tuning-learning-rate"><a href="#Tuning-learning-rate" class="headerlink" title="Tuning learning rate"></a>Tuning learning rate</h3><blockquote>
+<p>$\theta^i = \theta^{i-1} - \eta {dL \over d\theta}|_{\theta=\theta^i} $</p>
+</blockquote>
+<p>Set the learning rate η carefully</p>
+<img src="/MachineLearningNotes/LearningRate.png" class="" title="Learning Rate">
+
+
+<h3 id="Stochastic-Gradient-Descent"><a href="#Stochastic-Gradient-Descent" class="headerlink" title="Stochastic Gradient Descent"></a>Stochastic Gradient Descent</h3><p>随机梯度下降：每一个例子都更新一次参数</p>
+<img src="/MachineLearningNotes/StochasticGradientDescent.png" class="" title="Stochastic Gradient Descent">
+
+<h3 id="Feature-Scaling"><a href="#Feature-Scaling" class="headerlink" title="Feature Scaling"></a>Feature Scaling</h3><p><a href="https://www.jianshu.com/p/63a3b42f1e74" target="_blank" rel="noopener">特征缩放</a>属于数据标准化的范畴，能够消除每一维度特征对最后结果贡献的不平等性。（例如1，2，3，4，5…与100，200，300，400，500…）</p>
+<img src="/MachineLearningNotes/FeatureScaling.png" class="" title="Feature Scaling">
+<p>上图中$x_1$与$x_2$为不同特征</p>
+<h3 id="Gradient-Descent-Theory"><a href="#Gradient-Descent-Theory" class="headerlink" title="Gradient Descent Theory"></a>Gradient Descent Theory</h3><p>利用泰勒展开式，近似求得</p>
 
       
 
@@ -379,7 +396,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Machine-Learning"><span class="toc-number">1.</span> <span class="toc-text">Machine Learning</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-Introduction-of-Machine-Learning"><span class="toc-number">1.1.</span> <span class="toc-text">0-Introduction of Machine Learning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Regression"><span class="toc-number">1.2.</span> <span class="toc-text">1-Regression</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Application："><span class="toc-number">1.2.1.</span> <span class="toc-text">Application：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Model"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.Model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Goodness-of-Function"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.Goodness of Function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Best-Function"><span class="toc-number">1.2.4.</span> <span class="toc-text">3.Best Function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Gradient-Descent"><span class="toc-number">1.2.5.</span> <span class="toc-text">4.Gradient Descent</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Bias-and-Variance（Where-does-the-error-come-from）"><span class="toc-number">1.3.</span> <span class="toc-text">2-Bias and Variance（Where does the error come from）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Model-Selection"><span class="toc-number">1.3.1.</span> <span class="toc-text">Model Selection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cross-Validation"><span class="toc-number">1.3.2.</span> <span class="toc-text">Cross Validation</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Machine-Learning"><span class="toc-number">1.</span> <span class="toc-text">Machine Learning</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-Introduction-of-Machine-Learning"><span class="toc-number">1.1.</span> <span class="toc-text">0-Introduction of Machine Learning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Regression"><span class="toc-number">1.2.</span> <span class="toc-text">1-Regression</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Application："><span class="toc-number">1.2.1.</span> <span class="toc-text">Application：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Model"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.Model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Goodness-of-Function"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.Goodness of Function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Best-Function"><span class="toc-number">1.2.4.</span> <span class="toc-text">3.Best Function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Gradient-Descent"><span class="toc-number">1.2.5.</span> <span class="toc-text">4.Gradient Descent</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Bias-and-Variance（Where-does-the-error-come-from）"><span class="toc-number">1.3.</span> <span class="toc-text">2-Bias and Variance（Where does the error come from）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Model-Selection"><span class="toc-number">1.3.1.</span> <span class="toc-text">Model Selection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cross-Validation"><span class="toc-number">1.3.2.</span> <span class="toc-text">Cross Validation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Gradient-Descent"><span class="toc-number">1.4.</span> <span class="toc-text">3-Gradient Descent</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Tuning-learning-rate"><span class="toc-number">1.4.1.</span> <span class="toc-text">Tuning learning rate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stochastic-Gradient-Descent"><span class="toc-number">1.4.2.</span> <span class="toc-text">Stochastic Gradient Descent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Feature-Scaling"><span class="toc-number">1.4.3.</span> <span class="toc-text">Feature Scaling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Gradient-Descent-Theory"><span class="toc-number">1.4.4.</span> <span class="toc-text">Gradient Descent Theory</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
