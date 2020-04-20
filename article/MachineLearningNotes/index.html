@@ -16,16 +16,16 @@
 <meta property="og:site_name" content="illiterate">
 <meta property="og:description" content="李宏毅机器学习笔记，坚持每天一更.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;AIMLDL.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;LearningMap.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;GradientDescent.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;BiasVariance.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;LearningRate.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;StochasticGradientDescent.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;FeatureScaling.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;article&#x2F;MachineLearningNotes&#x2F;AIMLDL.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;article&#x2F;MachineLearningNotes&#x2F;LearningMap.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;article&#x2F;MachineLearningNotes&#x2F;GradientDescent.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;article&#x2F;MachineLearningNotes&#x2F;BiasVariance.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;article&#x2F;MachineLearningNotes&#x2F;LearningRate.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;article&#x2F;MachineLearningNotes&#x2F;StochasticGradientDescent.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;article&#x2F;MachineLearningNotes&#x2F;FeatureScaling.png">
 <meta property="og:updated_time" content="2020-02-24T06:41:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;MachineLearningNotes&#x2F;AIMLDL.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;article&#x2F;MachineLearningNotes&#x2F;AIMLDL.png">
   
     <link rel="alternative" href="/atom.xml" title="illiterate" type="application/atom+xml">
   
@@ -176,12 +176,12 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>李宏毅机器学习笔记，坚持每天一更.</p>
-<img src="/MachineLearningNotes/AIMLDL.png" class="" title="AIMLDL">
+<img src="/article/MachineLearningNotes/AIMLDL.png" class="" title="AIMLDL">
 <hr
 >
 <a id="more"></a>
 
-<h1 id="Machine-Learning"><a href="#Machine-Learning" class="headerlink" title="Machine Learning"></a>Machine Learning</h1><h2 id="0-Introduction-of-Machine-Learning"><a href="#0-Introduction-of-Machine-Learning" class="headerlink" title="0-Introduction of Machine Learning"></a>0-Introduction of Machine Learning</h2><img src="/MachineLearningNotes/LearningMap.png" class="" title="Learning Map">
+<h1 id="Machine-Learning"><a href="#Machine-Learning" class="headerlink" title="Machine Learning"></a>Machine Learning</h1><h2 id="0-Introduction-of-Machine-Learning"><a href="#0-Introduction-of-Machine-Learning" class="headerlink" title="0-Introduction of Machine Learning"></a>0-Introduction of Machine Learning</h2><img src="/article/MachineLearningNotes/LearningMap.png" class="" title="Learning Map">
 
 
 
@@ -220,14 +220,14 @@
 </ol>
 </blockquote>
 <p>两个参数的梯度下降过程示例：</p>
-<img src="/MachineLearningNotes/GradientDescent.png" class="" title="Gradient Descent">
+<img src="/article/MachineLearningNotes/GradientDescent.png" class="" title="Gradient Descent">
 
 <h2 id="2-Bias-and-Variance（Where-does-the-error-come-from）"><a href="#2-Bias-and-Variance（Where-does-the-error-come-from）" class="headerlink" title="2-Bias and Variance（Where does the error come from）"></a>2-Bias and Variance（Where does the error come from）</h2><p>错误来自偏差(bias)和方差(variance)</p>
 <blockquote>
 <p>简单的模型偏差大、方差小，复杂的模型偏差小、方差<br>错误来自偏差说明模型欠拟合，错误来自方差说明模型过拟合</p>
 </blockquote>
 <p>偏差指预测数据的均值与真实值的差值，方差描述预测数据的离散程度，如下图：</p>
-<img src="/MachineLearningNotes/BiasVariance.png" class="" title="Bias Variance">
+<img src="/article/MachineLearningNotes/BiasVariance.png" class="" title="Bias Variance">
 
 <p><em>欠拟合</em>：模型不能很好的拟合训练数据，拥有大的偏差</p>
 <blockquote>
@@ -243,14 +243,14 @@
 <p>$\theta^i = \theta^{i-1} - \eta {dL \over d\theta}|_{\theta=\theta^i} $</p>
 </blockquote>
 <p>Set the learning rate η carefully</p>
-<img src="/MachineLearningNotes/LearningRate.png" class="" title="Learning Rate">
+<img src="/article/MachineLearningNotes/LearningRate.png" class="" title="Learning Rate">
 
 
 <h3 id="Stochastic-Gradient-Descent"><a href="#Stochastic-Gradient-Descent" class="headerlink" title="Stochastic Gradient Descent"></a>Stochastic Gradient Descent</h3><p>随机梯度下降：每一个例子都更新一次参数</p>
-<img src="/MachineLearningNotes/StochasticGradientDescent.png" class="" title="Stochastic Gradient Descent">
+<img src="/article/MachineLearningNotes/StochasticGradientDescent.png" class="" title="Stochastic Gradient Descent">
 
 <h3 id="Feature-Scaling"><a href="#Feature-Scaling" class="headerlink" title="Feature Scaling"></a>Feature Scaling</h3><p><a href="https://www.jianshu.com/p/63a3b42f1e74" target="_blank" rel="noopener">特征缩放</a>属于数据标准化的范畴，能够消除每一维度特征对最后结果贡献的不平等性。（例如1，2，3，4，5…与100，200，300，400，500…）</p>
-<img src="/MachineLearningNotes/FeatureScaling.png" class="" title="Feature Scaling">
+<img src="/article/MachineLearningNotes/FeatureScaling.png" class="" title="Feature Scaling">
 <p>上图中$x_1$与$x_2$为不同特征</p>
 <h3 id="Gradient-Descent-Theory"><a href="#Gradient-Descent-Theory" class="headerlink" title="Gradient Descent Theory"></a>Gradient Descent Theory</h3><p>利用泰勒展开式，近似求得</p>
 
@@ -537,6 +537,14 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">Machine Learning</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">elementary</a>
               </li>
              
@@ -545,11 +553,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">Machine Learning</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">杂谈</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">读书</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -557,15 +565,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">杂谈</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">Zookeeper</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">读书</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">Python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -585,11 +585,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">年末</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color2">Python</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color3">年末</a>
               </li>
              
               <li class="article-tag-list-item">
