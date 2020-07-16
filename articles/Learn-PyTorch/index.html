@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020/5 | illiterate</title>
+  <title>PyTorch学习笔记 | illiterate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="illiterate">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;archives&#x2F;2020&#x2F;05&#x2F;index.html">
+  <meta name="description" content="记录自己在使用PyTorch及其相关框架时遇到的问题和解决方法。">
+<meta name="keywords" content="Python,PyTorch,Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PyTorch学习笔记">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;articles&#x2F;Learn-PyTorch&#x2F;index.html">
 <meta property="og:site_name" content="illiterate">
+<meta property="og:description" content="记录自己在使用PyTorch及其相关框架时遇到的问题和解决方法。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https:&#x2F;&#x2F;torchtext.readthedocs.io&#x2F;en&#x2F;latest&#x2F;_static&#x2F;pytorch-logo-dark.svg">
+<meta property="og:updated_time" content="2020-07-16T08:38:45.147Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;torchtext.readthedocs.io&#x2F;en&#x2F;latest&#x2F;_static&#x2F;pytorch-logo-dark.svg">
   
     <link rel="alternative" href="/atom.xml" title="illiterate" type="application/atom+xml">
   
@@ -143,40 +149,129 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Learn-PyTorch" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/articles/deep-learning-with-pytorch/" class="archive-article-date">
-  	<time datetime="2020-05-29T02:04:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/articles/deep-learning-with-pytorch/">DEEP LEARNING WITH PYTORCH</a>
+    <h1 class="article-title" itemprop="name">
+      PyTorch学习笔记
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/articles/Learn-PyTorch/" class="archive-article-date">
+  	<time datetime="2020-07-16T00:39:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://torchtext.readthedocs.io/en/latest/_static/pytorch-logo-dark.svg" alt="PyTorch"></p>
+<p>记录自己在使用PyTorch及其相关框架时遇到的问题和解决方法。</p>
+<a id="more"></a>
+
+<h2 id="torchtext数据预处理"><a href="#torchtext数据预处理" class="headerlink" title="torchtext数据预处理"></a>torchtext数据预处理</h2><p><a href="https://torchtext.readthedocs.io/" target="_blank" rel="noopener">torchtext</a>是一个PyTorch的非官方的框架，用来处理NLP中数据加载的任务。torchtext为文本数据的读取提供了很好的pipeline，可以方便的把数据送给PyTorch。但是其功能实现上存在着一些bug，仍存在着大量的坑。本节利用torchtext讲述从数据的读取到生成Batch的过程，方便以后的复习使用。</p>
+<h3 id="torchtext读取数据"><a href="#torchtext读取数据" class="headerlink" title="torchtext读取数据"></a>torchtext读取数据</h3><p>首先导入相应的框架。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"><span class="keyword">from</span> torchtext <span class="keyword">import</span> data</span><br></pre></td></tr></table></figure>
+
+<p>定义分词函数。分词函数使用结巴分词的lcut函数，得到分词后的列表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tokenizer</span><span class="params">(text)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> jieba.lcut(text)</span><br></pre></td></tr></table></figure>
+
+<p>定义<code>torchtext.data.Field</code>。Field类似于数据库中的域，像是一个规则，把数据限定在这个规则下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TEXT = data.Field(sequential=<span class="literal">True</span>, tokenize=tokenizer)</span><br><span class="line">LABEL = data.Field(sequential=<span class="literal">False</span>, use_vocab=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="读取CSV数据"><a href="#读取CSV数据" class="headerlink" title="读取CSV数据"></a>读取CSV数据</h4><p>获取训练集和验证集时可以<code>torchtext.data.TabularDataset.splits</code>这个函数，若待读取的数据为如下的CSV文件时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">id,content,label</span><br><span class="line">1,妞妞啊，今天又承办了一个发文登记文号是126~嘻~么么哒~晚安哟,happy</span><br><span class="line">2,这里还值得注意另一个事实，就是张鞠存原有一个东溪草堂为其读书处。,neural</span><br><span class="line">3,这在前华约国家(尤其是东德)使用R-73的首次联合演习期间，被一些北约组织的飞行员所证实。,neural</span><br><span class="line">4,TinyThief上wii了？！,surprise</span><br><span class="line">5,每天都以紧张的心情工作，真的是太累，太不放松了，想要爆发一下,angry</span><br></pre></td></tr></table></figure>
+<p>torchtext读取的方法为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">train_data, valid_data, test_data = data.TabularDataset.splits(</span><br><span class="line">                    path = <span class="string">'./data/'</span>,</span><br><span class="line">                    train = <span class="string">'weibo_train.csv'</span>,</span><br><span class="line">                    validation = <span class="string">'weibo_valid.csv'</span>,</span><br><span class="line">                    test = <span class="string">'weibo_test.csv'</span>,</span><br><span class="line">                    format = <span class="string">'csv'</span>,</span><br><span class="line">                    skip_header = <span class="literal">True</span>,</span><br><span class="line">                    fields = [	<span class="comment"># fields顺序必须与文件中列的顺序一致</span></span><br><span class="line">                    (<span class="string">'id'</span>, <span class="literal">None</span>),</span><br><span class="line">                    (<span class="string">'text'</span>, TEXT), </span><br><span class="line">                    (<span class="string">'label'</span>, LABEL), <span class="comment">#在test文件里面没有第三列，会自动忽略</span></span><br><span class="line">                    ])</span><br></pre></td></tr></table></figure>
+<p>CSV数据是以英文<code>,</code>来分隔数据的，但是文本数据中很大概率存在大量英文<code>,</code>，很容易导致读取数据时产生意外的问题。</p>
+<h4 id="读取JSON数据"><a href="#读取JSON数据" class="headerlink" title="读取JSON数据"></a>读取JSON数据</h4><p>在读取torchtext所理解的”JSON”数据时会遇到坑。torchtext加载数据时有可能是按行去读取，所以并不能处理传统意义上的JSON数据，torchtext所理解的”JSON”数据是每一行为一个Python中的字典：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"id"</span>: <span class="number">1</span>, <span class="attr">"content"</span>: <span class="string">"妞妞啊，今天又承办了一个发文登记文号是126~嘻~么么哒~晚安哟"</span>, <span class="attr">"label"</span>: <span class="string">"happy"</span>&#125;</span><br><span class="line">&#123;<span class="attr">"id"</span>: <span class="number">2</span>, <span class="attr">"content"</span>: <span class="string">"这里还值得注意另一个事实，就是张鞠存原有一个东溪草堂为其读书处。"</span>, <span class="attr">"label"</span>: <span class="string">"neural"</span>&#125;</span><br><span class="line">&#123;<span class="attr">"id"</span>: <span class="number">3</span>, <span class="attr">"content"</span>: <span class="string">"这在前华约国家(尤其是东德)使用R-73的首次联合演习期间，被一些北约组织的飞行员所证实。"</span>, <span class="attr">"label"</span>: <span class="string">"neural"</span>&#125;</span><br><span class="line">&#123;<span class="attr">"id"</span>: <span class="number">4</span>, <span class="attr">"content"</span>: <span class="string">"TinyThief上wii了？！"</span>, <span class="attr">"label"</span>: <span class="string">"surprise"</span>&#125;</span><br><span class="line">&#123;<span class="attr">"id"</span>: <span class="number">5</span>, <span class="attr">"content"</span>: <span class="string">"每天都以紧张的心情工作，真的是太累，太不放松了，想要爆发一下"</span>, <span class="attr">"label"</span>: <span class="string">"angry"</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>针对以上数据，torchtext的解决方法为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">train_data, valid_data = data.TabularDataset.splits(</span><br><span class="line">                    path = <span class="string">'./data/'</span>,</span><br><span class="line">                    train = <span class="string">'weibo_train.json'</span>,</span><br><span class="line">                    validation = <span class="string">'weibo_valid.json'</span>,</span><br><span class="line">                    format = <span class="string">'json'</span>,</span><br><span class="line">                    fields = &#123;</span><br><span class="line">                    <span class="string">'content'</span>: (<span class="string">'text'</span>, TEXT), <span class="comment">#content为数据文件中的key，text为读取数据后给其定义的名字</span></span><br><span class="line">                    <span class="string">'label'</span>: (<span class="string">'label'</span>, LABEL),</span><br><span class="line">                    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># test文件的key里面没有label，需要单独读取test_data</span></span><br><span class="line">test_data = data.TabularDataset( <span class="comment">#这里没有.splites()</span></span><br><span class="line">                    path = <span class="string">'./data/weibo_test.json'</span>,</span><br><span class="line">                    format = <span class="string">'json'</span>,</span><br><span class="line">                    fields = &#123; <span class="comment">#test文件的key里面没有label，不需要添加</span></span><br><span class="line">                    <span class="string">'content'</span>: (<span class="string">'text'</span>, TEXT), </span><br><span class="line">                    &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>上述JSON数据不是标准的JSON格式，还需要把数据处理成上述格式才能调用函数。所以对于JSON数据还是自己定义DataLoader比较好。</p>
+<h4 id="自定义DataLoader"><a href="#自定义DataLoader" class="headerlink" title="自定义DataLoader"></a>自定义DataLoader</h4><p>自定义DataLoader的主要思想是首先手动读取数据，然后把数据构造成<code>torchtext.data.Example</code>，再利用<code>torchtext.data.Dataset</code>构造成数据集。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_dataset</span><span class="params">(json_file, text_field, label_field, test=False)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> test: <span class="comment"># 如果为test，则没有label</span></span><br><span class="line">        label_field = <span class="literal">None</span></span><br><span class="line">    <span class="comment"># 定义fields</span></span><br><span class="line">    fields = [(<span class="string">'text'</span>, text_field), (<span class="string">'label'</span>, label_field)]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 读取文件</span></span><br><span class="line">    <span class="keyword">with</span> open(json_file, <span class="string">'r'</span>) <span class="keyword">as</span> rf:</span><br><span class="line">        filedata = json.load(rf)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 生成examples</span></span><br><span class="line">    examples = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> filedata:</span><br><span class="line">        text = i.get(<span class="string">'content'</span>, <span class="literal">None</span>)</span><br><span class="line">        label = i.get(<span class="string">'label'</span>, <span class="literal">None</span>) <span class="comment">#此处的label需要改成数字，可以构造个字典，把标签映射成数字</span></span><br><span class="line">        examples.append(data.Example.fromlist([text, label], fields))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> data.Dataset(examples, fields)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">train_data = get_dataset(<span class="string">'./data/weibo_train.json'</span>, TEXT, LABEL)</span><br><span class="line">valid_data = get_dataset(<span class="string">'./data/weibo_valid.json'</span>, TEXT, LABEL)</span><br><span class="line">test_data = get_dataset(<span class="string">'./data/weibo_test.json'</span>, TEXT, LABEL, test=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<p>打印一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">print(train_data[<span class="number">0</span>].__dict__)</span><br><span class="line">print(valid_data[<span class="number">0</span>].__dict__)</span><br><span class="line">print(test_data[<span class="number">0</span>].__dict__)</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;text&apos;: [&apos;气死&apos;, &apos;姐姐&apos;, &apos;了&apos;, &apos;，&apos;, &apos;快二是&apos;, &apos;阵亡&apos;, &apos;了&apos;, &apos;吗&apos;, &apos;，&apos;, &apos;尼玛&apos;, &apos;，&apos;, &apos;一个半&apos;, &apos;小时&apos;, &apos;过去&apos;, &apos;了&apos;, &apos;也&apos;, &apos;没&apos;, &apos;上车&apos;], &apos;label&apos;: &apos;angry&apos;&#125;</span><br><span class="line">&#123;&apos;text&apos;: [&apos;韩国&apos;, &apos;漫画&apos;, &apos;，&apos;, &apos;妻子&apos;, &apos;的&apos;, &apos;记忆&apos;, &apos;，&apos;, &apos;结尾&apos;, &apos;让&apos;, &apos;人&apos;, &apos;流泪&apos;, &apos;。&apos;], &apos;label&apos;: &apos;sad&apos;&#125;</span><br><span class="line">&#123;&apos;text&apos;: [&apos;所以&apos;, &apos;注定&apos;, &apos;我&apos;, &apos;这辈子&apos;, &apos;是&apos;, &apos;做不了&apos;, &apos;商人&apos;, &apos;妈蛋&apos;]&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出train_data和valid_data都有label，test_data没有label。</p>
+<h3 id="torchtext构建Vocab（单词表）"><a href="#torchtext构建Vocab（单词表）" class="headerlink" title="torchtext构建Vocab（单词表）"></a>torchtext构建Vocab（单词表）</h3><p>对train_data构建Vocab</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TEXT.build_vocab(train_data)</span><br><span class="line"></span><br><span class="line">print(TEXT.vocab.__dict__.keys()) </span><br><span class="line"><span class="comment"># TEXT.vocab.freqs TEXT.vocab.stoi可以获得相应的值</span></span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dict_keys([&apos;freqs&apos;, &apos;itos&apos;, &apos;unk_index&apos;, &apos;stoi&apos;, &apos;vectors&apos;])</span><br></pre></td></tr></table></figure>
+
+<h3 id="构建迭代器"><a href="#构建迭代器" class="headerlink" title="构建迭代器"></a>构建迭代器</h3><p>利用<code>torchtext.data.BucketIterator</code>和<code>torchtext.data.Iterator</code>构建迭代器</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">train_iter = data.BucketIterator(dataset=train_data, batch_size=<span class="number">64</span>, shuffle=<span class="literal">True</span>, sort_within_batch=<span class="literal">False</span>, repeat=<span class="literal">False</span>)</span><br><span class="line">valid_iter = data.BucketIterator(dataset=valid_data, batch_size=<span class="number">8</span>, shuffle=<span class="literal">True</span>, sort_within_batch=<span class="literal">False</span>, repeat=<span class="literal">False</span>)</span><br><span class="line">test_iter=data.Iterator(test_data, batch_size=<span class="number">8</span>, device=<span class="number">-1</span>, sort=<span class="literal">False</span>, sort_within_batch=<span class="literal">False</span>, repeat=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="构建LSTM"><a href="#构建LSTM" class="headerlink" title="构建LSTM"></a>构建LSTM</h3><p>构建LSTM模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义LSTM</span></span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> torch.optim <span class="keyword">as</span> optim</span><br><span class="line"></span><br><span class="line">weight_matrix=TEXT.vocab.vectors</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LSTM</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(LSTM,self).__init__()</span><br><span class="line">        self.word_embedding=nn.Embedding(len(TEXT.vocab),<span class="number">300</span>)</span><br><span class="line">        self.lstm=nn.LSTM(input_size=<span class="number">300</span>,hidden_size=<span class="number">128</span>,num_layers=<span class="number">1</span>)</span><br><span class="line">        self.decoder=nn.Linear(<span class="number">128</span>,<span class="number">6</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, sentence)</span>:</span></span><br><span class="line">        embeds=self.word_embedding(sentence)</span><br><span class="line">        <span class="comment">#print(embeds.shape)</span></span><br><span class="line">        lstm_out=self.lstm(embeds)[<span class="number">0</span>]</span><br><span class="line">        <span class="comment">#print(lstm_out.shape)</span></span><br><span class="line">        final=lstm_out[<span class="number">-1</span>]</span><br><span class="line">        y=self.decoder(final)</span><br><span class="line">        <span class="keyword">return</span> y</span><br></pre></td></tr></table></figure>
+
+<h3 id="训练数据"><a href="#训练数据" class="headerlink" title="训练数据"></a>训练数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">model=LSTM()</span><br><span class="line">model.train()</span><br><span class="line">optimizer=optim.Adam(filter(<span class="keyword">lambda</span> p:p.requires_grad,model.parameters()),lr=<span class="number">0.01</span>)</span><br><span class="line">crition=F.cross_entropy</span><br><span class="line"></span><br><span class="line">print(<span class="string">'Start training...'</span>)</span><br><span class="line">EPOCHES = <span class="number">20</span></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">1</span>, EPOCHES+<span class="number">1</span>):</span><br><span class="line">    losses = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> batch <span class="keyword">in</span> train_iter:</span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        predicted=model(batch.text)</span><br><span class="line">        <span class="comment">#print(predicted, batch.label)</span></span><br><span class="line">        loss=crition(predicted,batch.label)</span><br><span class="line">        loss.backward()</span><br><span class="line">        optimizer.step()</span><br><span class="line">        losses += loss.item()</span><br><span class="line">    print(<span class="string">'Epoch: %d | Loss: %f'</span> % (epoch, losses/(len(train_iter))))</span><br></pre></td></tr></table></figure>
+
+<p>完整代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"><span class="keyword">from</span> torchtext <span class="keyword">import</span> data</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tokenizer</span><span class="params">(text)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> jieba.lcut(text)</span><br><span class="line"></span><br><span class="line">TEXT = data.Field(sequential=<span class="literal">True</span>, tokenize=tokenizer)</span><br><span class="line">LABEL = data.Field(sequential=<span class="literal">False</span>, use_vocab=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">label_to_index = &#123;</span><br><span class="line">    <span class="string">'neural'</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">'happy'</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">'angry'</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">'sad'</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="string">'fear'</span>: <span class="number">4</span>,</span><br><span class="line">    <span class="string">'surprise'</span>: <span class="number">5</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_dataset</span><span class="params">(json_file, text_field, label_field, test=False)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> test: <span class="comment"># 如果为test，则没有label</span></span><br><span class="line">        label_field = <span class="literal">None</span></span><br><span class="line">    <span class="comment"># 定义fields</span></span><br><span class="line">    fields = [(<span class="string">'text'</span>, text_field), (<span class="string">'label'</span>, label_field)]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 读取文件</span></span><br><span class="line">    <span class="keyword">with</span> open(json_file, <span class="string">'r'</span>) <span class="keyword">as</span> rf:</span><br><span class="line">        filedata = json.load(rf)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 生成examples</span></span><br><span class="line">    examples = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> filedata:</span><br><span class="line">        text = i.get(<span class="string">'content'</span>, <span class="literal">None</span>)</span><br><span class="line">        label = i.get(<span class="string">'label'</span>, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> text:</span><br><span class="line">            <span class="keyword">continue</span> </span><br><span class="line">        label_index = label_to_index.get(label, <span class="literal">None</span>) <span class="comment">#得到数字label</span></span><br><span class="line">        examples.append(data.Example.fromlist([text, label_index], fields))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> data.Dataset(examples, fields)</span><br><span class="line"></span><br><span class="line">train_data = get_dataset(<span class="string">'./data/train/usual_train.txt'</span>, TEXT, LABEL)</span><br><span class="line"></span><br><span class="line">TEXT.build_vocab(train_data)</span><br><span class="line"><span class="comment">#print(TEXT.vocab.__dict__)</span></span><br><span class="line"></span><br><span class="line">train_iter = data.BucketIterator(dataset=train_data, batch_size=<span class="number">64</span>, shuffle=<span class="literal">True</span>, sort_within_batch=<span class="literal">False</span>, repeat=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义LSTM</span></span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> torch.optim <span class="keyword">as</span> optim</span><br><span class="line"></span><br><span class="line">weight_matrix=TEXT.vocab.vectors</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LSTM</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(LSTM,self).__init__()</span><br><span class="line">        self.word_embedding=nn.Embedding(len(TEXT.vocab),<span class="number">300</span>)</span><br><span class="line">        self.lstm=nn.LSTM(input_size=<span class="number">300</span>,hidden_size=<span class="number">128</span>,num_layers=<span class="number">1</span>)</span><br><span class="line">        self.decoder=nn.Linear(<span class="number">128</span>,<span class="number">6</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, sentence)</span>:</span></span><br><span class="line">        embeds=self.word_embedding(sentence)</span><br><span class="line">        <span class="comment">#print(embeds.shape)</span></span><br><span class="line">        lstm_out=self.lstm(embeds)[<span class="number">0</span>]</span><br><span class="line">        <span class="comment">#print(lstm_out.shape)</span></span><br><span class="line">        final=lstm_out[<span class="number">-1</span>]</span><br><span class="line">        y=self.decoder(final)</span><br><span class="line">        <span class="keyword">return</span> y</span><br><span class="line"></span><br><span class="line">model=LSTM()</span><br><span class="line">model.train()</span><br><span class="line">optimizer=optim.Adam(filter(<span class="keyword">lambda</span> p:p.requires_grad,model.parameters()),lr=<span class="number">0.01</span>)</span><br><span class="line">crition=F.cross_entropy</span><br><span class="line"></span><br><span class="line">print(<span class="string">'Start training...'</span>)</span><br><span class="line">EPOCHES = <span class="number">20</span></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">1</span>, EPOCHES+<span class="number">1</span>):</span><br><span class="line">    losses = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> batch <span class="keyword">in</span> train_iter:</span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        predicted=model(batch.text)</span><br><span class="line">        <span class="comment">#print(predicted, batch.label)</span></span><br><span class="line">        loss=crition(predicted,batch.label)</span><br><span class="line">        loss.backward()</span><br><span class="line">        optimizer.step()</span><br><span class="line">        losses += loss.item()</span><br><span class="line">    print(<span class="string">'Epoch: %d | Loss: %f'</span> % (epoch, losses/(len(train_iter))))</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><blockquote>
+<p><a href="https://blog.csdn.net/nlpuser/article/details/88067167" target="_blank" rel="noopener">TorchText用法示例及完整代码</a><br><a href="https://www.jianshu.com/p/da3a5d5ed2ba" target="_blank" rel="noopener">Pytorch学习记录-更深的TorchText学习01</a><br><a href="https://www.jianshu.com/p/8e891bdca78a" target="_blank" rel="noopener">Pytorch学习记录-torchtext数据预处理</a><br><a href="https://www.jianshu.com/p/e5adb235399e" target="_blank" rel="noopener">TorchText使用</a><br><a href="https://blog.csdn.net/weixin_43896398/article/details/85559172" target="_blank" rel="noopener">Torchtext读取JSON数据</a><br><a href="https://zhuanlan.zhihu.com/p/94941514" target="_blank" rel="noopener">使用pytorch和torchtext进行文本分类</a></p>
+</blockquote>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" target="_blank" rel="noopener" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我喝饮料<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/image/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/image/weixin.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color2">Python</a>
+        		</li>
+      		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color3">PyTorch</a>
         		</li>
@@ -188,19 +283,119 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" target="_blank" rel="noopener" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" target="_blank" rel="noopener" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;" target="_blank" rel="noopener"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/articles/Learn-PyTorch/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/articles/illiterate-store/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">目不识丁杂货店</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#torchtext数据预处理"><span class="toc-number">1.</span> <span class="toc-text">torchtext数据预处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#torchtext读取数据"><span class="toc-number">1.1.</span> <span class="toc-text">torchtext读取数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#读取CSV数据"><span class="toc-number">1.1.1.</span> <span class="toc-text">读取CSV数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#读取JSON数据"><span class="toc-number">1.1.2.</span> <span class="toc-text">读取JSON数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自定义DataLoader"><span class="toc-number">1.1.3.</span> <span class="toc-text">自定义DataLoader</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#torchtext构建Vocab（单词表）"><span class="toc-number">1.2.</span> <span class="toc-text">torchtext构建Vocab（单词表）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构建迭代器"><span class="toc-number">1.3.</span> <span class="toc-text">构建迭代器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构建LSTM"><span class="toc-number">1.4.</span> <span class="toc-text">构建LSTM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#训练数据"><span class="toc-number">1.5.</span> <span class="toc-text">训练数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考："><span class="toc-number">2.</span> <span class="toc-text">参考：</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -223,8 +418,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
