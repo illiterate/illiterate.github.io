@@ -6,18 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>小米手环2固件升级后不能连接手机的解决方法 | illiterate</title>
+  <title>获取Bert的三个输入 | illiterate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="小米">
+  <meta name="description" content="Bert的三个输入：input_ids, attention_mask和token_type_ids。可以自己写函数来实现，也可以调用Transformers的API来实现。">
+<meta name="keywords" content="PyTorch,Deep Learning">
 <meta property="og:type" content="article">
-<meta property="og:title" content="小米手环2固件升级后不能连接手机的解决方法">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;articles&#x2F;%E5%B0%8F%E7%B1%B3%E6%89%8B%E7%8E%AF2%E5%9B%BA%E4%BB%B6%E5%8D%87%E7%BA%A7%E5%90%8E%E4%B8%8D%E8%83%BD%E8%BF%9E%E6%8E%A5%E6%89%8B%E6%9C%BA%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95&#x2F;index.html">
+<meta property="og:title" content="获取Bert的三个输入">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;articles&#x2F;bert-input&#x2F;index.html">
 <meta property="og:site_name" content="illiterate">
+<meta property="og:description" content="Bert的三个输入：input_ids, attention_mask和token_type_ids。可以自己写函数来实现，也可以调用Transformers的API来实现。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http:&#x2F;&#x2F;img01.sogoucdn.com&#x2F;app&#x2F;a&#x2F;100520146&#x2F;97abc5d352a098c09f2da12ea1907ab7">
-<meta property="og:updated_time" content="2018-01-09T04:52:44.000Z">
+<meta property="og:updated_time" content="2020-11-29T14:00:09.229Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;img01.sogoucdn.com&#x2F;app&#x2F;a&#x2F;100520146&#x2F;97abc5d352a098c09f2da12ea1907ab7">
   
     <link rel="alternative" href="/atom.xml" title="illiterate" type="application/atom+xml">
   
@@ -147,32 +147,38 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-小米手环2固件升级后不能连接手机的解决方法" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-bert-input" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      小米手环2固件升级后不能连接手机的解决方法
+      获取Bert的三个输入
     </h1>
   
 
         
-        <a href="/articles/%E5%B0%8F%E7%B1%B3%E6%89%8B%E7%8E%AF2%E5%9B%BA%E4%BB%B6%E5%8D%87%E7%BA%A7%E5%90%8E%E4%B8%8D%E8%83%BD%E8%BF%9E%E6%8E%A5%E6%89%8B%E6%9C%BA%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2017-12-17T03:19:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-17</time>
+        <a href="/articles/bert-input/" class="archive-article-date">
+  	<time datetime="2020-11-29T12:53:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="http://img01.sogoucdn.com/app/a/100520146/97abc5d352a098c09f2da12ea1907ab7" alt=""></p>
+        <p>Bert的三个输入：input_ids, attention_mask和token_type_ids。可以自己写函数来实现，也可以调用Transformers的API来实现。</p>
 <a id="more"></a>
+<h2 id="生成Bert的三个输入"><a href="#生成Bert的三个输入" class="headerlink" title="生成Bert的三个输入"></a>生成Bert的三个输入</h2><h3 id="Transformers-API"><a href="#Transformers-API" class="headerlink" title="Transformers API"></a>Transformers API</h3><p>huggingface的transformers库为我们提供了方便的API来进行相关工作。<br>参考链接中使用的方法为tokenizer.encode()该方法只返回加入了[CLS]和[SEP]之后的input_ids。<br>后来师兄推荐了一个encode_plus函数，可以一次返回Bert的三个输入。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BertTokenizer, BertModel</span><br><span class="line"></span><br><span class="line">sentence = <span class="string">'自然语言处理是计算机科学领域与人工智能领域中的一个重要方向。'</span></span><br><span class="line">tokenizer = BertTokenizer.from_pretrained(<span class="string">'bert-base-chinese'</span>)</span><br><span class="line">tokens = tokenizer.encode_plus(sentence, max_length=<span class="number">512</span>, padding=<span class="string">'max_length'</span>, truncation=<span class="literal">True</span>)</span><br><span class="line">print(tokens)</span><br></pre></td></tr></table></figure>
+<p>参数中：max_length为句子最长的长度。padding=’max_length’ 保证了如果句子的原始长度小于max_length，则对其进行padding。而truncation=True 保证了如果句子长度大于max_length则将句子进行截断。<br>三个输出分别为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;input_ids&apos;: [101, 5632, 4197, 6427, 6241, 1905, 4415, 3221, 6369, 5050, 3322, 4906, 2110, 7566, 1818, 680, 782, 2339, 3255, 5543, 7566, 1818, 704, 4638, 671, 702, 7028, 6206, 3175, 1403, 511, 102, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], &apos;token_type_ids&apos;: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], &apos;attention_mask&apos;: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]&#125;</span><br></pre></td></tr></table></figure>
 
-<blockquote>
-<p>只需在蓝牙设置里面取消配对，再重新连接就好了。</p>
-</blockquote>
+<h2 id="输入至Bert中"><a href="#输入至Bert中" class="headerlink" title="输入至Bert中"></a>输入至Bert中</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">input_ids = torch.tensor(tokens[<span class="string">'input_ids'</span>])</span><br><span class="line">token_type_ids = torch.tensor(tokens[<span class="string">'token_type_ids'</span>])</span><br><span class="line">attention_mask = torch.tensor(tokens[<span class="string">'attention_mask'</span>])</span><br><span class="line"></span><br><span class="line">input_ids = torch.unsqueeze(input_ids, dim=<span class="number">0</span>)           <span class="comment"># 要变成二维的</span></span><br><span class="line">token_type_ids = torch.unsqueeze(token_type_ids, dim=<span class="number">0</span>) <span class="comment"># 要变成二维的</span></span><br><span class="line">attention_mask = torch.unsqueeze(attention_mask, dim=<span class="number">0</span>) <span class="comment"># 要变成二维的</span></span><br><span class="line">print(input_ids.size(), token_type_ids.size(), attention_mask.size())</span><br><span class="line"></span><br><span class="line">model = BertModel.from_pretrained(<span class="string">'bert-base-chinese'</span>)</span><br><span class="line"></span><br><span class="line">output = model(input_ids=input_ids, token_type_ids=token_type_ids, attention_mask=attention_mask)</span><br><span class="line">print(output[<span class="number">1</span>].size())</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">torch.Size([1, 512]) torch.Size([1, 512]) torch.Size([1, 512])</span><br><span class="line">torch.Size([1, 768])</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/qq_33293040/article/details/105439750" target="_blank" rel="noopener">Transformers包tokenizer.encode()方法源码阅读笔记</a></p>
 
       
 
@@ -217,7 +223,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color3">小米</a>
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color3">PyTorch</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color4">Deep Learning</a>
         		</li>
       		
 		</ul>
@@ -273,7 +283,7 @@
     <a class="close js-modal-close" href="javascript:;" target="_blank" rel="noopener"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/articles/%E5%B0%8F%E7%B1%B3%E6%89%8B%E7%8E%AF2%E5%9B%BA%E4%BB%B6%E5%8D%87%E7%BA%A7%E5%90%8E%E4%B8%8D%E8%83%BD%E8%BF%9E%E6%8E%A5%E6%89%8B%E6%9C%BA%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/articles/bert-input/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -287,18 +297,9 @@
   
 <nav id="article-nav">
   
-    <a href="/articles/%E5%86%8D%E8%A7%812017/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          再见2017
-        
-      </div>
-    </a>
   
-  
-    <a href="/articles/13-3%E5%B0%8F%E7%B1%B3Air%E7%AC%94%E8%AE%B0%E6%9C%AC%E5%AE%89%E8%A3%85elementary-ubuntu-%E5%90%8E%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%89%93%E5%BC%80wifi%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">13.3寸小米Air在elementary os中无法正常打开wifi的解决方法</div>
+    <a href="/articles/Pytorch-Bert-Classifier/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">基于PyTorch的BERT中文分类模型</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -325,7 +326,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不见了…
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#生成Bert的三个输入"><span class="toc-number">1.</span> <span class="toc-text">生成Bert的三个输入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Transformers-API"><span class="toc-number">1.1.</span> <span class="toc-text">Transformers API</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输入至Bert中"><span class="toc-number">2.</span> <span class="toc-text">输入至Bert中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol>
                     </div>
                 </span>
             </div>
