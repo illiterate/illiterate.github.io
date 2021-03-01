@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017/10 | illiterate</title>
+  <title>LSTM文本分类 | illiterate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="illiterate">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;archives&#x2F;2017&#x2F;10&#x2F;index.html">
+  <meta name="description" content="基于PyTorch的LSTM文本分类模型">
+<meta name="keywords" content="PyTorch,Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LSTM文本分类">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;articles&#x2F;LSTMClassifier&#x2F;index.html">
 <meta property="og:site_name" content="illiterate">
+<meta property="og:description" content="基于PyTorch的LSTM文本分类模型">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-03-01T07:36:45.374Z">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="illiterate" type="application/atom+xml">
@@ -143,49 +147,196 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-LSTMClassifier" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/articles/%E5%8F%AA%E5%90%AC%E9%A3%8E%E5%A3%B0%EF%BC%8C%E4%B8%8D%E9%97%AE%E9%98%B4%E6%99%B4/" class="archive-article-date">
-  	<time datetime="2017-10-28T15:29:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-28</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/articles/%E5%8F%AA%E5%90%AC%E9%A3%8E%E5%A3%B0%EF%BC%8C%E4%B8%8D%E9%97%AE%E9%98%B4%E6%99%B4/">只听风声，不问阴晴</a>
+    <h1 class="article-title" itemprop="name">
+      LSTM文本分类
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+        
+        <a href="/articles/LSTMClassifier/" class="archive-article-date">
+  	<time datetime="2021-03-01T07:33:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>基于PyTorch的LSTM文本分类模型</p>
+<a id="more"></a>
 
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="comment"># @File: lstm.py</span></span><br><span class="line"><span class="comment"># @Author: HE D.H.</span></span><br><span class="line"><span class="comment"># @Email: victor-he@qq.com</span></span><br><span class="line"><span class="comment"># @Time: 2020/12/08 16:46:58</span></span><br><span class="line"><span class="comment"># @Description:</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> TensorDataset, DataLoader</span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BertTokenizer</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_data</span><span class="params">(filename, labels, tokenizer)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    读取数据文件，将数据封装起来返回</span></span><br><span class="line"><span class="string">    输入：</span></span><br><span class="line"><span class="string">        数据文件名，例如：train.csv｜test.csv</span></span><br><span class="line"><span class="string">    返回：</span></span><br><span class="line"><span class="string">        打包好的数据</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="keyword">with</span> open(filename, <span class="string">'r'</span>) <span class="keyword">as</span> rf:</span><br><span class="line">        data = list(csv.reader(rf))</span><br><span class="line">    </span><br><span class="line">    label_ids = []</span><br><span class="line">    input_ids = []</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> data:</span><br><span class="line">        label, text = item</span><br><span class="line">        label_id = labels.index(label)</span><br><span class="line">        tokens = tokenizer(text, add_special_tokens=<span class="literal">False</span>, padding=<span class="string">'max_length'</span>, truncation=<span class="literal">True</span>, max_length=<span class="number">512</span>)</span><br><span class="line">        input_ids.append(tokens[<span class="string">'input_ids'</span>][:<span class="number">32</span>])</span><br><span class="line"></span><br><span class="line">        label_ids.append(label_id)</span><br><span class="line">    </span><br><span class="line">    input_ids = torch.tensor(input_ids)</span><br><span class="line">    label_ids = torch.tensor(label_ids)</span><br><span class="line"></span><br><span class="line">    dataset = TensorDataset(input_ids, label_ids)</span><br><span class="line">    <span class="keyword">return</span> dataset</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LSTMClassifier</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, vacab_size, embedding_dim, hidden_dim, n_layers, output_dim)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.embedding = nn.Embedding(vacab_size, embedding_dim=embedding_dim)</span><br><span class="line">        self.lstm = nn.LSTM(embedding_dim, hidden_dim, num_layers=n_layers, bidirectional=<span class="literal">True</span>, batch_first=<span class="literal">True</span>)</span><br><span class="line">        self.classifier = nn.Linear(hidden_dim*<span class="number">2</span>, output_dim)</span><br><span class="line">        self.softmax = nn.Softmax(dim=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, text)</span>:</span></span><br><span class="line">        embedding = self.embedding(text)</span><br><span class="line">        output, (hidden, cell) = self.lstm(embedding)</span><br><span class="line">        output = self.classifier(output[:,<span class="number">-1</span>,:])</span><br><span class="line">        output = self.softmax(output)</span><br><span class="line">        <span class="keyword">return</span> output</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    device = torch.device(<span class="string">'cuda'</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">'cpu'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># labels = ['财经', '房产', '股票', '家居', '教育', '科技', '社会', '时尚', '时政', '体育', '游戏', '娱乐']</span></span><br><span class="line">    labels = [<span class="string">'0'</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>]</span><br><span class="line"></span><br><span class="line">    tokenizer = BertTokenizer.from_pretrained(<span class="string">'bert-base-chinese'</span>)</span><br><span class="line">    vocab_size = tokenizer.vocab_size</span><br><span class="line">    embedding_dim = <span class="number">32</span></span><br><span class="line">    hidden_dim = <span class="number">128</span></span><br><span class="line">    n_layers = <span class="number">12</span></span><br><span class="line">    output_dim = len(labels)</span><br><span class="line">    batch_size = <span class="number">64</span></span><br><span class="line">    EPOCHS = <span class="number">100</span></span><br><span class="line">    learning_rate = <span class="number">5e-5</span></span><br><span class="line"></span><br><span class="line">    model = LSTMClassifier(vocab_size, embedding_dim, hidden_dim, n_layers, output_dim).to(device)</span><br><span class="line">    train_data = load_data(<span class="string">'data/weibo/extract/train.csv'</span>, labels, tokenizer)</span><br><span class="line">    test_data = load_data(<span class="string">'data/weibo/extract/test.csv'</span>, labels, tokenizer)</span><br><span class="line"></span><br><span class="line">    train_dataloader = DataLoader(train_data, batch_size=batch_size, shuffle=<span class="literal">True</span>)</span><br><span class="line">    test_dataloader = DataLoader(test_data, batch_size=batch_size, shuffle=<span class="literal">False</span>)</span><br><span class="line">    </span><br><span class="line">    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)</span><br><span class="line">    criterion = nn.CrossEntropyLoss()</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'weibo_lstm_output.txt'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> wf:</span><br><span class="line">        wf.write(<span class="string">'Batch Size: '</span> + str(batch_size) + <span class="string">'\tLearning Rate: '</span> + str(learning_rate) + <span class="string">'\n'</span>)</span><br><span class="line"></span><br><span class="line">    best_acc = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 开始训练 </span></span><br><span class="line">    <span class="keyword">for</span> Epoch <span class="keyword">in</span> range(<span class="number">1</span>, EPOCHS+<span class="number">1</span>):</span><br><span class="line">        losses = <span class="number">0</span>      <span class="comment"># 损失</span></span><br><span class="line">        accuracy = <span class="number">0</span>    <span class="comment"># 准确率</span></span><br><span class="line"></span><br><span class="line">        print(<span class="string">'Epoch:'</span>,Epoch)</span><br><span class="line"></span><br><span class="line">        model.train()</span><br><span class="line">        <span class="keyword">for</span> batch_index, batch <span class="keyword">in</span> enumerate(train_dataloader):</span><br><span class="line">            model.zero_grad()</span><br><span class="line">            input_ids = batch[<span class="number">0</span>].to(device)</span><br><span class="line">            label_ids = batch[<span class="number">1</span>].to(device)</span><br><span class="line">            output = model(input_ids)</span><br><span class="line"></span><br><span class="line">            loss = criterion(output, label_ids)</span><br><span class="line">            losses += loss.item()</span><br><span class="line"></span><br><span class="line">            pred_labels = torch.argmax(output, dim=<span class="number">1</span>)   <span class="comment"># 预测出的label</span></span><br><span class="line">            acc = torch.sum(pred_labels == label_ids.to(device)).item() / len(pred_labels) <span class="comment">#acc</span></span><br><span class="line"></span><br><span class="line">            accuracy += acc</span><br><span class="line"></span><br><span class="line">            print(<span class="string">'Epoch: %d ｜ Train: | Batch: %d / %d | Acc: %f | Loss: %f'</span> % (Epoch, batch_index+<span class="number">1</span>, len(train_dataloader), acc, loss.item()))</span><br><span class="line"></span><br><span class="line">            loss.backward()</span><br><span class="line">            optimizer.step()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        average_loss = losses / len(train_dataloader)</span><br><span class="line">        average_acc = accuracy / len(train_dataloader)</span><br><span class="line"></span><br><span class="line">        print(<span class="string">'\tTrain ACC:'</span>, average_acc, <span class="string">'\tLoss:'</span>, average_loss)</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'weibo_lstm_output.txt'</span>, <span class="string">'a'</span>) <span class="keyword">as</span> rf:</span><br><span class="line">            output_to_file = <span class="string">'\nEpoch: '</span> + str(Epoch) + <span class="string">'\tTrain ACC:'</span> + str(average_acc) + <span class="string">'\tLoss: '</span> + str(average_loss)</span><br><span class="line">            rf.write(output_to_file)</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 验证</span></span><br><span class="line">        model.eval()</span><br><span class="line">        losses = <span class="number">0</span>      <span class="comment"># 损失</span></span><br><span class="line">        accuracy = <span class="number">0</span>    <span class="comment"># 准确率</span></span><br><span class="line">        <span class="keyword">for</span> batch_index, batch <span class="keyword">in</span> enumerate(test_dataloader):</span><br><span class="line">            model.zero_grad()</span><br><span class="line">            input_ids = batch[<span class="number">0</span>].to(device)</span><br><span class="line">            label_ids = batch[<span class="number">1</span>].to(device)</span><br><span class="line"></span><br><span class="line">            output = model(input_ids)</span><br><span class="line">            </span><br><span class="line">            loss = criterion(output, label_ids)</span><br><span class="line">            losses += loss.item()</span><br><span class="line"></span><br><span class="line">            pred_labels = torch.argmax(output, dim=<span class="number">1</span>)   <span class="comment"># 预测出的label</span></span><br><span class="line">            acc = torch.sum(pred_labels == label_ids.to(device)).item() / len(pred_labels) <span class="comment">#acc</span></span><br><span class="line">            accuracy += acc</span><br><span class="line"></span><br><span class="line">        average_loss = losses / len(test_dataloader)</span><br><span class="line">        average_acc = accuracy / len(test_dataloader)</span><br><span class="line"></span><br><span class="line">        print(<span class="string">'\tTest ACC:'</span>, average_acc, <span class="string">'\tLoss:'</span>, average_loss)</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'weibo_lstm_output.txt'</span>, <span class="string">'a'</span>) <span class="keyword">as</span> rf:</span><br><span class="line">            output_to_file = <span class="string">'\nEpoch: '</span> + str(Epoch) + <span class="string">'\tTest ACC:'</span> + str(average_acc) + <span class="string">'\tLoss: '</span> + str(average_loss) + <span class="string">'\n'</span></span><br><span class="line">            rf.write(output_to_file)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> average_acc &gt; best_acc:</span><br><span class="line">            best_acc = average_acc</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">'models'</span>):</span><br><span class="line">                os.mkdir(<span class="string">'models'</span>)</span><br><span class="line">            torch.save(model.state_dict(), <span class="string">'models/weibo_lstm_best_model.pkl'</span>)   </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" target="_blank" rel="noopener" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我喝饮料<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/image/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/image/weixin.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color3">PyTorch</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color4">Deep Learning</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" target="_blank" rel="noopener" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" target="_blank" rel="noopener" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;" target="_blank" rel="noopener"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/articles/LSTMClassifier/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/articles/bert-input/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">获取Bert的三个输入</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不见了…
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -208,8 +359,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
