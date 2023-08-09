@@ -17,7 +17,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="https://illiterate.top/articles/LLMs-tuning/LoRA.png">
 <meta property="article:published_time" content="2023-08-08T03:18:16.000Z">
-<meta property="article:modified_time" content="2023-08-09T02:04:05.699Z">
+<meta property="article:modified_time" content="2023-08-09T04:08:22.255Z">
 <meta property="article:author" content="HE D.H.">
 <meta property="article:tag" content="LLMs">
 <meta property="article:tag" content="NLP">
@@ -92,6 +92,12 @@
 		        
 					<a class="mail" target="_blank" href="mailto:victor-he@qq.com" title="mail"><i class="icon-mail"></i></a>
 		        
+					<a class="weibo" target="_blank" href="https://www.weibo.com" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com" title="zhihu"><i class="icon-zhihu"></i></a>
+		        
+					<a class="bilibili" target="_blank" href="https://www.bilibili.com" title="bilibili"><i class="icon-bilibili"></i></a>
+		        
 			</div>
 		</nav>
 	</header>		
@@ -130,6 +136,12 @@
 						<a class="github" target="_blank" href="https://github.com/illiterate" title="github"><i class="icon-github"></i></a>
 			        
 						<a class="mail" target="_blank" href="mailto:victor-he@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="weibo" target="_blank" href="https://www.weibo.com" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com" title="zhihu"><i class="icon-zhihu"></i></a>
+			        
+						<a class="bilibili" target="_blank" href="https://www.bilibili.com" title="bilibili"><i class="icon-bilibili"></i></a>
 			        
 				</div>
 			</nav>
@@ -183,16 +195,26 @@
 <span id="more"></span>
 
 <p>常见的PEFT方法包括LoRA、Prefix Tuning、P-Tuning、Prompt Tuning等。</p>
-<h2 id="LoRA：Low-Rank-Adaptation"><a href="#LoRA：Low-Rank-Adaptation" class="headerlink" title="LoRA：Low-Rank Adaptation"></a>LoRA：Low-Rank Adaptation</h2><p>LoRA的主要思想是在原始的预训练权重$W∈R^{d×d}$、$a$一旁增加一个A矩阵和B矩阵</p>
-<div style="width: 40%; margin: auto;"><img src="/articles/LLMs-tuning/LoRA.png" class=""></div>
+<h2 id="LoRA：Low-Rank-Adaptation"><a href="#LoRA：Low-Rank-Adaptation" class="headerlink" title="LoRA：Low-Rank Adaptation"></a>LoRA：Low-Rank Adaptation</h2><div style="width: 40%; margin: auto;"><img src="/articles/LLMs-tuning/LoRA.png" class=""></div>
 <div style="margin: auto; text-align: center; color:gray;"> 图1: LoRA示意图</div>
 
-
-
-
-
-
-<p>参考：<br>[1] <a target="_blank" rel="noopener" href="https://github.com/huggingface/peft">PEFT: State-of-the-art Parameter-Efficient Fine-Tuning.</a><br>[2] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2106.09685.pdf">LoRA: Low-Rank Adaptation of Large Language Models</a></p>
+<ul>
+<li><p>LoRA的主要思想是在原始的预训练权重$W∈R^{d×k}$一旁增加一个$B∈R^{d×r}$矩阵和$A∈R^{r×k}$矩阵。</p>
+<blockquote>
+<p>$$W &#x3D; W_0 + \Delta W &#x3D; W_0 + BA$$<br>$W_0$是原始预训练的参数，$\Delta W$是LoRA要微调的参数。</p>
+</blockquote>
+</li>
+<li><p>在微调阶段，固定住原始预训练的参数（$W_0$不更新），然后将$x∈R^k$通过$A$矩阵上降维至$R^r$，再通过B矩阵升维至$R^d$（和ALBERT的思路有些类似），通过附加少量的参数，来使得模型更适用于特定领域或者下游任务。</p>
+<blockquote>
+<p>$$h &#x3D; Wx &#x3D; W_0x + \Delta Wx &#x3D; W_0x + BAx$$</p>
+</blockquote>
+</li>
+<li><p>在初始化时，用随机高斯分布初始化A，用0矩阵初始化B，保证训练开始时权重矩阵$\Delta W$依然是0矩阵.</p>
+</li>
+<li><p>在推理过程中，只需要计算$W &#x3D; W_0 + \Delta W$即可。LoRA与Transformer 的结合也很简单，仅在QKV Attention 的计算中增加一个旁路。</p>
+</li>
+</ul>
+<p>参考：<br>[1] <a target="_blank" rel="noopener" href="https://github.com/huggingface/peft">PEFT: State-of-the-art Parameter-Efficient Fine-Tuning.</a><br>[2] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2106.09685.pdf">LoRA: Low-Rank Adaptation of Large Language Models</a><br>[3] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/623543497">LoRA：大模型轻量级微调</a></p>
 
       
 
@@ -370,8 +392,8 @@ MathJax.Hub.Queue(function() {
 });
 </script>
 
-<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
+<!-- <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 
     
@@ -430,15 +452,19 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">elementary</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">小米</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -458,11 +484,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">PyTorch</a>
+                <a href="javascript:void(0)" class="js-tag color2">Python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Python</a>
+                <a href="javascript:void(0)" class="js-tag color3">PyTorch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -499,10 +525,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
